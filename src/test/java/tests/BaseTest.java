@@ -9,15 +9,24 @@ import static config.PropertyReader.properties;
 
 public abstract class BaseTest {
     String BASE_URL = properties.getProperty("url");
-    public static String[] invalidUserEmails = {"locked_out_user","standard",""};
-    public static String[] validUserEmails = {
-            properties.getProperty("standardUser"),
-            properties.getProperty("problemUser"),
-            properties.getProperty("performanceGlitchUser"),
-            properties.getProperty("errorUser"),
-            properties.getProperty("visualUser")
-    };
-
+    @DataProvider(name = "validLoginData")
+    public Object[] loginDataProvider() {
+        return new Object[][] {
+                {properties.getProperty("standardUser")},
+                {properties.getProperty("problemUser")},
+                {properties.getProperty("performanceGlitchUser")},
+                {properties.getProperty("errorUser")},
+                {properties.getProperty("visualUser")}
+        };
+    }
+    @DataProvider(name = "invalidLoginData")
+    public Object[] invalidLoginDataProvider() {
+        return new Object[][] {
+                {"locked_out_user"},
+                {"standard"},
+                {""}
+        };
+    }
     public void setUp(){
         WebDriverManager.chromedriver().setup();
         Configuration.browser="chrome";
@@ -31,7 +40,6 @@ public abstract class BaseTest {
     }
     @AfterTest()
     public void tearDown(){
-        Selenide.sleep(1000);
         Selenide.closeWebDriver();
     }
 }

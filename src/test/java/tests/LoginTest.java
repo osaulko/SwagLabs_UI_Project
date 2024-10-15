@@ -8,21 +8,26 @@ import static com.codeborne.selenide.Selenide.page;
 
 public class LoginTest extends BaseTest {
 
-    @Test
-    public void validLogIn(){
-        for (int i = 0; i < validUserEmails.length; i++){
-            page(LoginPage.class).logInAsValidUser(new String[]{validUserEmails[i]});
+    /** Тест validLogIn покрывает кейсы 3p001, 3p003, 3p004, 3p005, 3p006.
+     *  assert в этом тесте проверяет отсутствие кнопки loginBtn.
+     */
+
+    @Test(dataProvider = "validLoginData")
+    public void validLogIn(String username){
+            page(LoginPage.class).logInAsValidUser(username);
             Assert.assertFalse(LoginPage.loginBtn.isDisplayed());
             Selenide.back();
-        }
     }
-    @Test
-    public void invalidLogIn(){
-        for (int i = 0; i < invalidUserEmails.length; i++){
-            page(LoginPage.class).logInAsInvalidUser(new String[]{invalidUserEmails[i]});
+
+    /** Тест invalidLogIn покрывает кейсы 3p002, 3p007, 3p008
+    *   assert в этом тесте проверяет наличие кнопки loginBtn и наличие сообщения об ошибке.
+    */
+
+    @Test(dataProvider = "invalidLoginData")
+    public void invalidLogIn(String username){
+            page(LoginPage.class).logInAsInvalidUser(username);
             Assert.assertTrue(LoginPage.loginBtn.isDisplayed());
             Assert.assertTrue(LoginPage.errorMassage.isDisplayed());
             Selenide.refresh();
-        }
     }
 }

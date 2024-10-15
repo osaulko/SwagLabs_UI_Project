@@ -1,6 +1,5 @@
 package pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -13,18 +12,15 @@ public class LoginPage {
     public static SelenideElement errorMassage = $("[class^='error-button']");
     private static final String validPassword = properties.getProperty("password");
 
-    public void logInAsValidUser(String[] validUserEmails){
-        for (String email : validUserEmails) {
-            username.sendKeys(email);
+    public void logInAsValidUser(Object loginDataProvider){
+            username.sendKeys((CharSequence) loginDataProvider);
             password.sendKeys(validPassword);
             loginBtn.click();
-        return;}
+
     }
-    public void logInAsInvalidUser(String[] invalidUserEmails){
-        for (String invalidEmail : invalidUserEmails) {
-            username.sendKeys(invalidEmail);
+    public void logInAsInvalidUser(Object invalidLoginDataProvider){
+            username.sendKeys((CharSequence) invalidLoginDataProvider);
             password.sendKeys(validPassword);
             loginBtn.click();
-        return;}
     }
 }
