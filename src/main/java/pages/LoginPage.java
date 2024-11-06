@@ -16,11 +16,15 @@ public class LoginPage {
             username.sendKeys((CharSequence) loginDataProvider);
             password.sendKeys(validPassword);
             loginBtn.click();
-
     }
     public void logInAsInvalidUser(Object invalidLoginDataProvider){
             username.sendKeys((CharSequence) invalidLoginDataProvider);
             password.sendKeys(validPassword);
             loginBtn.click();
+    }
+    public void logIn(){
+        username.sendKeys(properties.getProperty("standardUser"));
+        password.sendKeys(validPassword);
+        loginBtn.click();
     }
 }
